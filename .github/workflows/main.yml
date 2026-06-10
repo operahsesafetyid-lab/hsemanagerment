@@ -17,30 +17,33 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+        env:
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
-      - name: Create folder structure
-        run: |
-          mkdir -p src
-          mkdir -p public
-          cp App.js src/App.js
-          cp index.js src/index.js
-          cp index.html public/index.html
+      - name: Create src and public folders
         shell: bash
+        run: |
+          mkdir -p src public
+          [ -f App.js ] && cp App.js src/App.js || echo "App.js already in src"
+          [ -f index.js ] && cp index.js src/index.js || echo "index.js already in src"
+          [ -f index.html ] && cp index.html public/index.html || echo "index.html already in public"
+          ls -la src/ public/
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
-      - name: Build React
+      - name: Build React app
         run: npm run build
         env:
           CI: false
+          GENERATE_SOURCEMAP: false
 
       - name: Build Windows EXE
         run: npx electron-builder --win --x64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload EXE
+      - name: Upload EXE installer
         uses: actions/upload-artifact@v4
         with:
           name: HSE-Management-System-Setup
