@@ -16,6 +16,9 @@
     "copyright": "Freelancer Qatar",
     "directories": { "output": "dist" },
     "files": ["build/**/*", "main.js", "preload.js"],
+    "extraMetadata": {
+      "main": "main.js"
+    },
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
