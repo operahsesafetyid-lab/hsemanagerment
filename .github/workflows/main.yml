@@ -18,6 +18,15 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Create folder structure
+        run: |
+          mkdir -p src
+          mkdir -p public
+          cp App.js src/App.js
+          cp index.js src/index.js
+          cp index.html public/index.html
+        shell: bash
+
       - name: Install dependencies
         run: npm install
 
