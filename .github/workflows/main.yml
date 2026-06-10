@@ -1,0 +1,30 @@
+name: Build HSE App
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - shell: bash
+        run: |
+          mkdir -p src public
+          cp App.js src/App.js
+          cp index.js src/index.js
+          cp index.html public/index.html
+      - run: npm install --legacy-peer-deps
+      - run: npm run build
+        env:
+          CI: false
+      - run: npx electron-builder --win --x64
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HSE-Setup
+          path: dist/*.exe
