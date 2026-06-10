@@ -1,7 +1,7 @@
 {
   "name": "hse-management-system",
   "version": "1.0.0",
-  "description": "HSE Management System - Freelancer Qatar",
+  "description": "HSE Management System",
   "main": "main.js",
   "homepage": "./",
   "author": "Freelancer Qatar",
@@ -13,7 +13,7 @@
   "build": {
     "appId": "com.freelancer.hse",
     "productName": "HSE Management System",
-    "author": "Freelancer Qatar",
+    "copyright": "Freelancer Qatar",
     "directories": { "output": "dist" },
     "files": ["build/**/*", "main.js", "preload.js"],
     "win": {
