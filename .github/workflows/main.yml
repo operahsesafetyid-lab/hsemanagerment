@@ -7,18 +7,33 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - run: npm install
-      - run: npm run build
-      - run: npx electron-builder --win --x64
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React
+        run: npm run build
+        env:
+          CI: false
+
+      - name: Build Windows EXE
+        run: npx electron-builder --win --x64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
         with:
-          name: HSE-Setup
+          name: HSE-Management-System-Setup
           path: dist/*.exe
+          retention-days: 30
