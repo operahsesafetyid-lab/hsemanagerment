@@ -20,14 +20,15 @@ jobs:
         env:
           ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
-      - name: Create src and public folders
+      - name: Create folder structure
         shell: bash
         run: |
           mkdir -p src public
-          [ -f App.js ] && cp App.js src/App.js || echo "App.js already in src"
-          [ -f index.js ] && cp index.js src/index.js || echo "index.js already in src"
-          [ -f index.html ] && cp index.html public/index.html || echo "index.html already in public"
-          ls -la src/ public/
+          [ -f App.js ] && cp App.js src/App.js
+          [ -f index.js ] && cp index.js src/index.js
+          [ -f index.html ] && cp index.html public/index.html
+          echo "Files ready"
+          ls src/ public/
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
@@ -43,7 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload EXE installer
+      - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: HSE-Management-System-Setup
